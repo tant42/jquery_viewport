@@ -16,11 +16,21 @@
         var fold = $(window).height() + $(window).scrollTop();
         return fold <= $(element).offset().top - settings.threshold;
     };
-
+    
+    $.overlapsfold = function(element, settings) {
+        var fold = $(window).height() + $(window).scrollTop();
+        return (fold <= $(element).offset().top + $(element).height()) && (fold >= $(element).offset().top - settings.threshold);
+    };
+    
     $.abovethetop = function(element, settings) {
         var top = $(window).scrollTop();
         return top >= $(element).offset().top + $(element).height() - settings.threshold;
     };
+        
+    $.overlapstop = function(element, settings) {
+        var top = $(window).scrollTop();
+        return (top >= $(element).offset().top) && (top <= $(element).offset().top + $(element).height() - settings.threshold);
+    }
     
     $.rightofscreen = function(element, settings) {
         var fold = $(window).width() + $(window).scrollLeft();
@@ -40,8 +50,14 @@
         "below-the-fold": function(a, i, m) {
             return $.belowthefold(a, {threshold : 0});
         },
+        "overlaps-fold": function(a, i, m) {
+            return $.overlapsfold(a, {threshold : 0});
+        },
         "above-the-top": function(a, i, m) {
             return $.abovethetop(a, {threshold : 0});
+        },
+        "overlaps-top": function(a, i, m) {
+            return $.overlapstop(a, {threshold : 0});
         },
         "left-of-screen": function(a, i, m) {
             return $.leftofscreen(a, {threshold : 0});
